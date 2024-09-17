@@ -20,7 +20,6 @@ class Tree:
         if not self.head:
             self.head = node
             return
-        
         tmp = self.head
         while True:
             if node.value <= tmp.value:
@@ -223,31 +222,46 @@ class Tree:
 
     def is_balanced(self):
         node = self.head
-        if node.left and node.right:
+        if not node.right and not node.left:
+            return True
+        elif node.left and node.right:
             left_tree = Tree()
             left_tree.head = node.left
             left_height = left_tree.tree_depth()
-            #print("Lelft Height:", left_height)
 
             right_tree = Tree()
             right_tree.head = node.right
             right_height = right_tree.tree_depth()
-            #print("Right Height:", right_height)
 
             if abs(left_height-right_height)<=1:
-                #print("Balanced")
                 left_balanced = left_tree.is_balanced()
                 right_balanced = right_tree.is_balanced()
-                #print(left_balanced, " | " , right_balanced)
                 if left_balanced and right_balanced:
                     return True
                 else:
-                    #print("Not Balanced")
                     return False
-            else:
-                #print("Not Balanced")
-                return False
-        else:
-            return True
+        elif node.left:
+            right_height = 0
+            left_tree = Tree()
+            left_tree.head = node.left
+            left_height = left_tree.tree_depth()
+            if abs(left_height-right_height)<=1:
+                left_balanced = left_tree.is_balanced()
+                if left_balanced:
+                    return True
+                else:
+                    return False
+        elif node.right:
+            left_height = 0
+            right_tree = Tree()
+            right_tree.head = node.right
+            right_height = right_tree.tree_depth()
+            if abs(left_height-right_height)<=1:
+                right_balanced = right_tree.is_balanced()
+                if right_balanced:
+                    return True
+                else:
+                    return False
 
+        
 
